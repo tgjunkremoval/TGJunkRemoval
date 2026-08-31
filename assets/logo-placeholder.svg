@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="130" viewBox="0 0 520 130">
+<rect width="130" height="130" rx="30" fill="#102219"/>
+<path d="M27 42h76v17H74v49H56V59H27z" fill="#c8f15a"/>
+<path d="M83 70h25v38H90v-11c-6 9-16 13-28 13-5 0-10-1-14-3l6-16c3 1 6 2 9 2 12 0 20-7 20-18z" fill="#c8f15a"/>
+<text x="153" y="63" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="800" fill="#102219">TGJunk</text>
+<text x="153" y="101" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="800" fill="#56745f">Removal</text>
+</svg>
