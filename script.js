@@ -203,11 +203,7 @@ quoteForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  if (
-    GOOGLE_SCRIPT_URL.includes(
-      "https://script.google.com/macros/s/AKfycby8iQsaHh78zpna7Xw8MGzEfNJS-pdvjqm63Dff2Ujsf8bppDMJYAh8MeEtKeYOXmNI/exec",
-    )
-  ) {
+  if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_YOUR_")) {
     showStatus(
       "Website form is ready, but the Google Apps Script URL still needs to be added in script.js.",
       "error",
