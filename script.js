@@ -5,7 +5,7 @@
 // After deploying Code.gs as a Google Apps Script Web App,
 // paste the /exec URL between the quotes below.
 const GOOGLE_SCRIPT_URL =
-  "Phttps://script.google.com/macros/s/AKfycby8iQsaHh78zpna7Xw8MGzEfNJS-pdvjqm63Dff2Ujsf8bppDMJYAh8MeEtKeYOXmNI/exec";
+  "https://script.google.com/macros/s/AKfycby8iQsaHh78zpna7Xw8MGzEfNJS-pdvjqm63Dff2Ujsf8bppDMJYAh8MeEtKeYOXmNI/exec";
 
 const MAX_PHOTOS = 4;
 const MAX_SOURCE_SIZE_MB = 12;
