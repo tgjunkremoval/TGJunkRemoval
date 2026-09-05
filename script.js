@@ -4,7 +4,8 @@
 
 // After deploying Code.gs as a Google Apps Script Web App,
 // paste the /exec URL between the quotes below.
-const GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const GOOGLE_SCRIPT_URL =
+  "Phttps://script.google.com/macros/s/AKfycby8iQsaHh78zpna7Xw8MGzEfNJS-pdvjqm63Dff2Ujsf8bppDMJYAh8MeEtKeYOXmNI/exec";
 
 const MAX_PHOTOS = 4;
 const MAX_SOURCE_SIZE_MB = 12;
@@ -30,7 +31,7 @@ menuToggle.addEventListener("click", () => {
   document.body.classList.toggle("menu-open", open);
 });
 
-mainNav.querySelectorAll("a").forEach(link => {
+mainNav.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
     mainNav.classList.remove("open");
     menuToggle.setAttribute("aria-expanded", "false");
@@ -43,12 +44,12 @@ window.addEventListener("scroll", () => {
 });
 
 // FAQ accordion
-document.querySelectorAll(".faq-item button").forEach(button => {
+document.querySelectorAll(".faq-item button").forEach((button) => {
   button.addEventListener("click", () => {
     const item = button.closest(".faq-item");
     const isOpen = item.classList.contains("open");
 
-    document.querySelectorAll(".faq-item").forEach(row => {
+    document.querySelectorAll(".faq-item").forEach((row) => {
       row.classList.remove("open");
       row.querySelector("button").setAttribute("aria-expanded", "false");
       row.querySelector("button b").textContent = "+";
@@ -63,16 +64,21 @@ document.querySelectorAll(".faq-item button").forEach(button => {
 });
 
 // Reveal animation
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.12 },
+);
 
-document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+document
+  .querySelectorAll(".reveal")
+  .forEach((el) => revealObserver.observe(el));
 
 // Photo selection
 uploadTrigger.addEventListener("click", () => photoInput.click());
@@ -86,12 +92,17 @@ photoInput.addEventListener("change", async () => {
     if (!file.type.startsWith("image/")) continue;
 
     if (file.size > MAX_SOURCE_SIZE_MB * 1024 * 1024) {
-      showStatus(`"${file.name}" is too large. Please choose an image under ${MAX_SOURCE_SIZE_MB} MB.`, "error");
+      showStatus(
+        `"${file.name}" is too large. Please choose an image under ${MAX_SOURCE_SIZE_MB} MB.`,
+        "error",
+      );
       continue;
     }
 
     // Avoid accidental duplicate selections.
-    const duplicate = selectedPhotos.some(p => p.file.name === file.name && p.file.size === file.size);
+    const duplicate = selectedPhotos.some(
+      (p) => p.file.name === file.name && p.file.size === file.size,
+    );
     if (!duplicate) selectedPhotos.push({ file });
   }
 
@@ -124,7 +135,8 @@ function renderPreviews() {
     previewGrid.appendChild(wrapper);
   });
 
-  uploadTrigger.style.display = selectedPhotos.length >= MAX_PHOTOS ? "none" : "flex";
+  uploadTrigger.style.display =
+    selectedPhotos.length >= MAX_PHOTOS ? "none" : "flex";
 }
 
 // Compress photos before upload so mobile submissions are faster and
@@ -152,7 +164,7 @@ async function compressImage(file) {
   return {
     name: file.name.replace(/\.[^.]+$/, "") + ".jpg",
     type: "image/jpeg",
-    dataUrl: canvas.toDataURL("image/jpeg", 0.78)
+    dataUrl: canvas.toDataURL("image/jpeg", 0.78),
   };
 }
 
@@ -192,7 +204,10 @@ quoteForm.addEventListener("submit", async (event) => {
   }
 
   if (GOOGLE_SCRIPT_URL.includes("PASTE_YOUR_")) {
-    showStatus("Website form is ready, but the Google Apps Script URL still needs to be added in script.js.", "error");
+    showStatus(
+      "Website form is ready, but the Google Apps Script URL still needs to be added in script.js.",
+      "error",
+    );
     return;
   }
 
@@ -218,7 +233,7 @@ quoteForm.addEventListener("submit", async (event) => {
       consent: formData.get("consent") === "on",
       photos,
       submittedAt: new Date().toISOString(),
-      source: window.location.href
+      source: window.location.href,
     };
 
     // URLSearchParams uses a "simple" form request and is reliable with
@@ -228,26 +243,33 @@ quoteForm.addEventListener("submit", async (event) => {
 
     const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
-      body
+      body,
     });
 
     const text = await response.text();
     let result = {};
-    try { result = JSON.parse(text); } catch (_) {}
+    try {
+      result = JSON.parse(text);
+    } catch (_) {}
 
     if (!response.ok || result.ok === false) {
       throw new Error(result.message || "Submission failed.");
     }
 
-    showStatus("Thank you! Your quote request was sent successfully. TGJunkRemoval will contact you soon.", "success");
+    showStatus(
+      "Thank you! Your quote request was sent successfully. TGJunkRemoval will contact you soon.",
+      "success",
+    );
     quoteForm.reset();
     selectedPhotos = [];
     renderPreviews();
     formStatus.scrollIntoView({ behavior: "smooth", block: "center" });
-
   } catch (error) {
     console.error(error);
-    showStatus("We couldn't send your request. Please try again or contact TGJunkRemoval directly.", "error");
+    showStatus(
+      "We couldn't send your request. Please try again or contact TGJunkRemoval directly.",
+      "error",
+    );
   } finally {
     setLoading(false);
   }
@@ -256,5 +278,7 @@ quoteForm.addEventListener("submit", async (event) => {
 function setLoading(loading) {
   submitBtn.disabled = loading;
   submitBtn.classList.toggle("loading", loading);
-  submitBtn.querySelector(".btn-label").textContent = loading ? "Sending Request..." : "Send My Quote Request";
+  submitBtn.querySelector(".btn-label").textContent = loading
+    ? "Sending Request..."
+    : "Send My Quote Request";
 }
