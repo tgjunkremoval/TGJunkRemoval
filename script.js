@@ -353,13 +353,15 @@ quoteForm.addEventListener("submit", async (event) => {
     //
     // mode: "no-cors" allows the browser
     // to submit across domains.
-    await fetch(GOOGLE_SCRIPT_URL, {
+    fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
-
       mode: "no-cors",
-
       body,
+    }).catch((error) => {
+      console.error("Background submission error:", error);
     });
+
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
     // Since no-cors prevents reading the response,
     // reaching this point means the browser sent the request.
